@@ -39,7 +39,7 @@ tcplQuery <- function(query, db = getOption("TCPL_DB"),
                     host = getOption("TCPL_HOST"),
                     dbname = db,
                     bigint = "numeric")
-    
+    if (!is.null(getOption("TCPL_PORT"))) db_pars[["port"]] <- getOption("TCPL_PORT")
   }
   
   if (drvr == "tcplLite") {
