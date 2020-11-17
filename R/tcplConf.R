@@ -6,7 +6,7 @@
 #' @export
 
 tcplConf <- function (drvr = NULL, user = NULL, pass = NULL, host = NULL, 
-                      db = NULL) {
+                      db = NULL, port = NULL) {
   #tcplConf(user='_dataminer', pass='pass', host='au.epa.gov', drvr = 'MySQL',db = 'invitrodb')
   
   # Notes for tcplLite
@@ -43,6 +43,13 @@ tcplConf <- function (drvr = NULL, user = NULL, pass = NULL, host = NULL,
     
     if (drvr == "MySQL") {
       options("TCPL_DRVR" = "MySQL")
+      if (!is.null(port)){
+        if (length(port) == 1 && is.numeric(port)){
+          options("TCPL_PORT" = port)
+        } else {
+          warning("Invalid 'port' no changes made to TCPL_PORT")
+        }
+      }
       mxp <- tcplQuery("SHOW VARIABLES LIKE 'max_allowed_packet'")$Value
       mxp <- as.numeric(mxp)
       if (mxp < 1073741824) {
